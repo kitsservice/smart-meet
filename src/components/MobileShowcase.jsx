@@ -1,34 +1,59 @@
-import { motion } from 'framer-motion';
+import { memo } from 'react';
+import { m } from 'framer-motion';
+import { QrCode } from 'lucide-react';
 import { mobileScreens } from '../data/showcase';
 import { fadeUpVariant, staggerContainer } from '../utils/animations';
+import GooglePlayButton from './GooglePlayButton';
 
-export default function MobileShowcase() {
-  // Seamless loop with 2 sets of screens
-  const screens = [...mobileScreens, ...mobileScreens];
+// Static array defined once outside component to prevent runtime allocations
+const SCREENS = [...mobileScreens, ...mobileScreens];
 
+function MobileShowcase({ onOpenQR }) {
   return (
-    <section className="py-20 sm:py-24 bg-white overflow-hidden border-y border-slate-100" id="mobile-app">
+    <section className="py-20 sm:py-24 bg-white overflow-hidden border-y border-slate-100 scroll-mt-16" id="mobile-app">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerContainer}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-10 sm:mb-14"
         >
-          <motion.h2
+          <m.div
+            variants={fadeUpVariant}
+            className="inline-flex items-center space-x-2 bg-emerald-50 text-emerald-700 px-3.5 py-1 rounded-full text-xs font-semibold mb-4 border border-emerald-100"
+          >
+            <span>📱 Now Available on Android</span>
+          </m.div>
+
+          <m.h2
             variants={fadeUpVariant}
             className="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900 tracking-tight"
           >
             Your office, anywhere.
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             variants={fadeUpVariant}
-            className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto font-medium"
+            className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto font-medium mb-8"
           >
-            Take SmartMeet on the go with our beautifully designed mobile app. Record, transcribe, and schedule meetings right from your pocket.
-          </motion.p>
-        </motion.div>
+            Take ARES on the go with our beautifully designed mobile app. Record, transcribe, and schedule meetings right from your pocket.
+          </m.p>
+
+          {/* Prominent Google Play Store Download Button & QR Code Option */}
+          <m.div variants={fadeUpVariant} className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-4">
+            <GooglePlayButton variant="dark" showRating />
+            {onOpenQR && (
+              <button
+                type="button"
+                onClick={onOpenQR}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold shadow-xs hover:shadow-md transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
+              >
+                <QrCode size={16} className="text-blue-600" />
+                <span>Scan QR Code</span>
+              </button>
+            )}
+          </m.div>
+        </m.div>
 
         {/* Elegant Marquee */}
         <div 
@@ -37,7 +62,7 @@ export default function MobileShowcase() {
           className="relative w-full max-w-full overflow-hidden py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-xl"
         >
           <div className="flex w-max animate-marquee hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] space-x-6 md:space-x-8 px-4 sm:px-6 md:px-8 motion-reduce:animate-none">
-            {screens.map((img, idx) => (
+            {SCREENS.map((img, idx) => (
               <div
                 key={`${img.src}-${idx}`}
                 className="shrink-0 w-[200px] sm:w-[220px] md:w-[240px] flex-col flex items-center transition-all duration-300 hover:-translate-y-2 cursor-pointer group"
@@ -84,3 +109,5 @@ export default function MobileShowcase() {
     </section>
   );
 }
+
+export default memo(MobileShowcase);

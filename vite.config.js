@@ -11,17 +11,20 @@ export default defineConfig({
   build: {
     target: 'es2022',
     cssCodeSplit: true,
+    modulePreload: {
+      polyfill: false,
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+            if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) {
               return 'vendor-react';
             }
-            if (id.includes('framer-motion')) {
+            if (/[\\/]node_modules[\\/]framer-motion[\\/]/.test(id)) {
               return 'vendor-motion';
             }
-            if (id.includes('lucide-react')) {
+            if (/[\\/]node_modules[\\/]lucide-react[\\/]/.test(id)) {
               return 'vendor-icons';
             }
           }

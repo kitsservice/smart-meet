@@ -1,51 +1,93 @@
-import { motion } from 'framer-motion';
+import { useState, memo } from 'react';
+import { m } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 import { pricingPlans } from '../data/pricing';
 import { fadeUpVariant, staggerContainer } from '../utils/animations';
+import { useAuth } from '../context/useAuth';
 
-export default function Pricing() {
+function Pricing() {
+  const [isAnnual, setIsAnnual] = useState(true);
+  const { openSignUp, isAuthenticated } = useAuth();
+
   return (
-    <section className="py-20 sm:py-24 bg-[#F8FAFC]" id="pricing">
+    <section className="py-20 sm:py-24 bg-[#F8FAFC] scroll-mt-16" id="pricing">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerContainer}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-10 sm:mb-12"
         >
-          <motion.h2
+          <m.h2
             variants={fadeUpVariant}
             className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight"
           >
             Simple, transparent pricing
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             variants={fadeUpVariant}
             className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto font-medium"
           >
             Choose the perfect plan for your team. Scale as you grow.
-          </motion.p>
-        </motion.div>
+          </m.p>
 
-        <motion.div
+          {/* Billing Cycle Toggle */}
+          <m.div variants={fadeUpVariant} className="mt-8 inline-flex items-center justify-center">
+            <div className="bg-slate-200/80 p-1 rounded-full flex items-center shadow-inner">
+              <button
+                type="button"
+                onClick={() => setIsAnnual(false)}
+                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                  !isAnnual
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+                aria-pressed={!isAnnual}
+              >
+                Monthly
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsAnnual(true)}
+                className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                  isAnnual
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+                aria-pressed={isAnnual}
+              >
+                <span>Annual</span>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
+                  isAnnual ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700'
+                }`}>
+                  Save 20%
+                </span>
+              </button>
+            </div>
+          </m.div>
+        </m.div>
+
+        <m.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-center"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch"
         >
           {pricingPlans.map((plan) => {
             const isHighlight = plan.highlight;
+            const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
+            const frequency = isAnnual ? plan.annualFrequency : plan.monthlyFrequency;
 
             return (
-              <motion.div
+              <m.div
                 key={plan.id}
                 variants={fadeUpVariant}
-                className={`rounded-3xl p-8 flex flex-col relative transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
+                className={`rounded-3xl p-8 flex flex-col relative transition-all duration-300 hover:scale-[1.02] ${
                   isHighlight
-                    ? 'bg-blue-600 text-white rounded-3xl p-8 shadow-xl shadow-blue-600/25 md:-translate-y-4 border border-blue-500 hover:shadow-2xl hover:shadow-blue-600/40'
-                    : 'bg-white rounded-3xl p-8 border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50'
+                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/25 md:-translate-y-2 border border-blue-500 hover:shadow-2xl hover:shadow-blue-600/40'
+                    : 'bg-white border border-slate-200 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50'
                 }`}
               >
                 {plan.popular && (
@@ -63,28 +105,36 @@ export default function Pricing() {
                   {plan.description}
                 </p>
 
-                <div className="mb-8 flex items-baseline">
+                <div className="mb-2 flex items-baseline">
                   <span className={`text-4xl font-extrabold ${isHighlight ? 'text-white' : 'text-slate-900'}`}>
-                    {plan.price}
+                    {price}
                   </span>
-                  {plan.frequency && (
+                  {frequency && (
                     <span className={`text-sm font-medium ${isHighlight ? 'text-blue-200' : 'text-slate-500'}`}>
-                      {plan.frequency}
+                      {frequency}
                     </span>
                   )}
                 </div>
 
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feat, idx) => (
+                <div className="h-6 mb-6">
+                  {isAnnual && plan.annualNote && (
+                    <p className={`text-xs font-semibold ${isHighlight ? 'text-blue-100' : 'text-emerald-600'}`}>
+                      {plan.annualNote}
+                    </p>
+                  )}
+                </div>
+
+                <ul className="space-y-4 mb-8 flex-1">
+                  {plan.features.map((feat) => (
                     <li
-                      key={idx}
+                      key={feat}
                       className={`flex items-center text-sm font-medium ${
                         isHighlight ? 'text-white' : 'text-slate-700'
                       }`}
                     >
                       <CheckCircle2
                         className={`w-4 h-4 mr-3 shrink-0 ${
-                          isHighlight ? 'text-blue-300' : 'text-slate-400'
+                          isHighlight ? 'text-blue-300' : 'text-blue-600'
                         }`}
                       />
                       <span>{feat}</span>
@@ -92,21 +142,30 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <a
-                  href={plan.ctaLink}
-                  className={`w-full block text-center px-6 py-3 text-sm font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-95 mt-auto ${
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (plan.id === 'enterprise') {
+                      window.location.href = 'mailto:sales@ares.ai?subject=ARES%20Enterprise%20Inquiry';
+                    } else {
+                      openSignUp();
+                    }
+                  }}
+                  className={`w-full block text-center px-6 py-3 text-sm font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-95 mt-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 cursor-pointer ${
                     isHighlight
-                      ? 'bg-white text-blue-600 font-bold hover:bg-blue-50 shadow-md hover:shadow-lg'
-                      : 'border border-slate-200 text-slate-700 hover:bg-slate-50 hover:shadow-sm'
+                      ? 'bg-white text-blue-600 font-bold hover:bg-blue-50 shadow-md hover:shadow-lg focus-visible:ring-white'
+                      : 'border border-slate-200 text-slate-700 hover:bg-slate-50 hover:shadow-sm focus-visible:ring-blue-500'
                   }`}
                 >
-                  {plan.ctaText}
-                </a>
-              </motion.div>
+                  {isAuthenticated && plan.id !== 'enterprise' ? 'Select Plan' : plan.ctaText}
+                </button>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
 }
+
+export default memo(Pricing);

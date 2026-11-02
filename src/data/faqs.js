@@ -1,9 +1,9 @@
 export const faqs = [
   {
     id: 1,
-    question: 'Does SmartMeet work with Google Meet and Zoom?',
+    question: 'Does ARES work with Google Meet and Zoom?',
     answer:
-      'Yes! SmartMeet seamlessly integrates with Zoom, Google Meet, and Microsoft Teams. It joins your calls automatically as a silent participant or via browser extension without requiring complex setups.',
+      'Yes! ARES seamlessly integrates with Zoom, Google Meet, and Microsoft Teams. It joins your calls automatically as a silent participant without requiring complex setups.',
   },
   {
     id: 2,
@@ -21,12 +21,12 @@ export const faqs = [
     id: 4,
     question: 'Do other participants know they are being recorded?',
     answer:
-      'Transparency is our priority. SmartMeet AI clearly displays itself as an active participant in the meeting and announces recording status in full compliance with local privacy laws and consent requirements.',
+      'Transparency is our priority. ARES clearly displays itself as an active participant in the meeting and announces recording status in full compliance with local privacy laws and consent requirements.',
   },
   {
     id: 5,
     question: 'How easy is it to export summaries to our CRM or Notion?',
     answer:
-      'With one click or automated webhook triggers, SmartMeet syncs notes, highlights, and action items directly into Slack, Notion, HubSpot, Salesforce, and Jira.',
+      'With one click or automated webhook triggers, ARES syncs notes, highlights, and action items directly into Slack, Notion, HubSpot, Salesforce, and Jira.',
   },
 ];

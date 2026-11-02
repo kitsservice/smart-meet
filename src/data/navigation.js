@@ -1,3 +1,5 @@
+export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.kits.ares';
+
 export const navLinks = [
   { name: 'Features', href: '#features' },
   { name: 'App', href: '#mobile-app' },
@@ -6,16 +8,10 @@ export const navLinks = [
 ];
 
 export const footerLinks = {
-  about: [
-    { name: 'Blog', href: '#' },
-    { name: 'Customers', href: '#' },
-    { name: 'Team', href: '#' },
-    { name: 'Careers', href: '#' },
-  ],
   download: [
-    { name: 'Meetings Client', href: '#' },
-    { name: 'Rooms Client', href: '#' },
-    { name: 'Browser Extension', href: '#' },
+    { name: 'Android (Google Play)', href: PLAY_STORE_URL, isExternal: true },
+    { name: 'Meetings Client', href: '#mobile-app' },
+    { name: 'Rooms Client', href: '#mobile-app' },
   ],
   support: [
     { name: 'Account', href: '#' },

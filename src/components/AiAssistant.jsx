@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 import { Bot, Sparkles, X, FileText, Zap, MessageCircle, Settings2, Check } from 'lucide-react';
 import { floatingMenuVariants } from '../utils/animations';
 
@@ -34,12 +34,13 @@ const aiActions = [
   },
 ];
 
-export default function AiAssistant() {
+function AiAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeFeedback, setActiveFeedback] = useState(null);
   const containerRef = useRef(null);
+  const timeoutRef = useRef(null);
 
-  // Close when clicking outside
+  // Close when clicking outside or pressing Escape
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -64,12 +65,24 @@ export default function AiAssistant() {
     };
   }, [isOpen]);
 
-  const handleAction = (label) => {
+  // Clean up feedback timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleAction = useCallback((label) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
     setActiveFeedback(label);
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       setActiveFeedback(null);
     }, 2500);
-  };
+  }, []);
 
   return (
     <div
@@ -78,7 +91,7 @@ export default function AiAssistant() {
     >
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             key="ai-menu"
             initial="hidden"
             animate="visible"
@@ -86,13 +99,14 @@ export default function AiAssistant() {
             variants={floatingMenuVariants}
             className="bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-2 w-[calc(100vw-2rem)] sm:w-80 max-w-sm flex flex-col overflow-hidden origin-bottom-right"
             role="dialog"
-            aria-label="SmartMeet AI Companion"
+            aria-modal="true"
+            aria-label="ARES AI Companion"
           >
             {/* Header */}
             <div className="p-3 border-b border-slate-100 flex items-center justify-between">
               <span className="font-bold text-slate-800 text-sm flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-                <span>AI Companion</span>
+                <span>ARES Companion</span>
                 <span className="text-[10px] bg-blue-50 text-blue-600 font-semibold px-2 py-0.5 rounded-full border border-blue-100">
                   Active
                 </span>
@@ -101,7 +115,7 @@ export default function AiAssistant() {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 className="text-slate-400 hover:text-slate-600 p-1 rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-                aria-label="Close AI Companion menu"
+                aria-label="Close ARES Companion menu"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -109,7 +123,11 @@ export default function AiAssistant() {
 
             {/* Notification banner when an action is clicked */}
             {activeFeedback && (
-              <div className="mx-2 mt-2 p-2.5 bg-blue-50 border border-blue-100 rounded-xl flex items-center gap-2 text-xs text-blue-700 font-medium animate-in fade-in">
+              <div 
+                role="status"
+                aria-live="polite"
+                className="mx-2 mt-2 p-2.5 bg-blue-50 border border-blue-100 rounded-xl flex items-center gap-2 text-xs text-blue-700 font-medium animate-in fade-in"
+              >
                 <Check className="w-4 h-4 text-blue-600 shrink-0" />
                 <span>Started: <strong>{activeFeedback}</strong></span>
               </div>
@@ -144,7 +162,7 @@ export default function AiAssistant() {
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -153,7 +171,8 @@ export default function AiAssistant() {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
-        aria-label={isOpen ? 'Close AI Companion' : 'Open AI Companion'}
+        aria-haspopup="dialog"
+        aria-label={isOpen ? 'Close ARES Companion' : 'Open ARES Companion'}
         className={`flex items-center justify-center w-14 h-14 rounded-full shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 ${
           isOpen
             ? 'bg-slate-800 text-white hover:bg-slate-700'
@@ -165,3 +184,5 @@ export default function AiAssistant() {
     </div>
   );
 }
+
+export default memo(AiAssistant);

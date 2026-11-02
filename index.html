@@ -2,37 +2,78 @@
 <html lang="en" class="scroll-smooth overflow-x-hidden">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartMeet - One platform to connect it all | AI Meeting Intelligence</title>
-    <meta name="description" content="SmartMeet brings teams together with real-time AI transcription, automated action items, summaries, and enterprise-grade security." />
-    <meta name="keywords" content="AI meetings, smart meeting, meeting transcription, AI notes, zoom integration, google meet companion" />
-    <meta name="author" content="SmartMeet Inc." />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ARES - Smart Meeting Assistance | AI Meeting Intelligence</title>
+    <meta name="description" content="ARES brings teams together with real-time AI transcription, automated action items, summaries, and enterprise-grade security." />
+    <meta name="keywords" content="ARES, Smart Meeting Assistance, AI meetings, meeting transcription, AI notes, zoom integration, google meet companion" />
+    <meta name="author" content="ARES Inc." />
+    <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#2563eb" />
+    <link rel="canonical" href="https://smartmeet.ai" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="SmartMeet - One platform to connect it all" />
-    <meta property="og:description" content="Bring teams together, reimagine workspaces, and turn meetings into instant action items with SmartMeet AI." />
+    <meta property="og:url" content="https://smartmeet.ai" />
+    <meta property="og:title" content="ARES - Smart Meeting Assistance" />
+    <meta property="og:description" content="Bring teams together, reimagine workspaces, and turn meetings into instant action items with ARES - Smart Meeting Assistance." />
     <meta property="og:image" content="/images/screen1.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SmartMeet - One platform to connect it all" />
-    <meta name="twitter:description" content="Real-time AI transcription, automated summaries, and enterprise security for modern teams." />
+    <meta name="twitter:url" content="https://smartmeet.ai" />
+    <meta name="twitter:title" content="ARES - Smart Meeting Assistance" />
+    <meta name="twitter:description" content="Real-time AI transcription, automated summaries, and enterprise security with ARES - Smart Meeting Assistance." />
     <meta name="twitter:image" content="/images/screen1.jpg" />
 
-    <!-- Favicon -->
+    <!-- Favicon & Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
 
-    <!-- Google Fonts Preconnect -->
+    <!-- Google Fonts Preconnect & Async Load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link 
+      rel="preload" 
+      as="style" 
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" 
+    />
+    <link 
+      rel="stylesheet" 
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" 
+      media="print" 
+      onload="this.media='all'" 
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
+    </noscript>
+
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ARES - Smart Meeting Assistance",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web, iOS, Android, macOS, Windows",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "ARES brings teams together with real-time AI transcription, automated action items, summaries, and enterprise-grade security."
+      }
+    </script>
   </head>
-  <body class="bg-[#F8FAFC] antialiased overflow-x-hidden w-full">
+  <body class="bg-[#F8FAFC] antialiased overflow-x-hidden w-full text-slate-900 selection:bg-blue-100 selection:text-blue-900">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

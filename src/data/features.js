@@ -18,27 +18,3 @@ export const features = [
     iconName: 'BrainCircuit',
   },
 ];
-
-export const securityFeatures = [
-  {
-    id: 'security-soc2',
-    iconName: 'ShieldCheck',
-    iconColor: 'blue',
-    title: 'Enterprise Security',
-    desc: 'SOC2 Type II compliant. Your data is processed securely and never used to train public AI models.',
-  },
-  {
-    id: 'security-encryption',
-    iconName: 'Lock',
-    iconColor: 'purple',
-    title: 'End-to-End Encryption',
-    desc: 'All meetings, transcripts, and insights are encrypted at rest with AES-256 and in transit with TLS 1.3.',
-  },
-  {
-    id: 'security-residency',
-    iconName: 'Server',
-    iconColor: 'green',
-    title: 'Data Residency',
-    desc: 'Choose where your data lives. We support local data residency across US, EU, and APAC regions.',
-  },
-];
